@@ -18,11 +18,11 @@ contract LoteriaTest is Test {
       lot = new Loteria(address(token));
     }
 
-    function testFuzzBuyTicket(uint256 amount) public{
-      amount = 500;
+    function testBuyTicket() public{
+      uint valueTicket = 500;
       assertTrue(token.approve(address(lot), 500));
       lot.statusOpen();
-      assertTrue(lot.buyTicket(amount));
+      assertTrue(lot.buyTicket(valueTicket));
       assertEq(token.balanceOf(address(this)), 1500);
       assertEq(token.balanceOf(address(lot)), 500);
     }
@@ -51,40 +51,39 @@ contract LoteriaTest is Test {
       assertTrue(lot.buyTicket(500));
       assertEq(lot.getValueGift(), 500);
     }
+    
 
     //TESTS FAILS
-    function testFailFuzzBuyTicketStatusCLOSED(uint256 amount) public{
-      amount = 500;
-      assertTrue(token.approve(address(lot),amount));
-      assertTrue(lot.buyTicket(amount));
+    function testFailBuyTicketStatusCLOSED() public{
+      assertTrue(token.approve(address(lot),600));
+      assertTrue(lot.buyTicket(600));
     }
 
-    function testFailFuzzBuyTicketOtherValue(uint256 amount) public{
-      amount = 400;
-      assertTrue(token.approve(address(lot), amount));
-      lot.statusOpen();
-      assertTrue(lot.buyTicket(amount));
-    }
-
-    function testFailFuzzGiftWinnerStatusCLOSED(uint256 amount) public{
-      amount = 500;
-      assertTrue(token.approve(address(lot), amount));
-      assertTrue(lot.buyTicket(amount));
+    function testFailGiftWinnerStatusCLOSED() public{
+      assertTrue(token.approve(address(lot), 500));
+      assertTrue(lot.buyTicket(500));
       assertTrue(lot.giftWinner());
     }
 
-    function testFailFuzzGiftWinnerNotOwner(uint256 amount) public{
-      amount = 500;
-      assertTrue(token.approve(address(lot), amount));
+    function testFailGiftWinnerNotOwner() public{
+      assertTrue(token.approve(address(lot), 500));
       lot.statusOpen();
-      assertTrue(lot.buyTicket(amount));
+      assertTrue(lot.buyTicket(500));
       vm.prank(alice);
       assertTrue(lot.giftWinner());
     }
 
-    function testFailFuzzGetValueGiftStatusCLOSED(uint256 amount) public{
-      amount = 500;
-      assertTrue(token.approve(address(lot), amount));
+    function testFailGetValueGiftStatusCLOSED() public{
+      assertTrue(token.approve(address(lot), 500));
       lot.getValueGift();
+    }
+
+
+    //TEST FUZZ
+    function testFailFuzzBuyTicketOtherValue() public{
+      vm.assume(amount > 500);
+      assertTrue(token.approve(address(lot), amount));
+      lot.statusOpen();
+      assertTrue(lot.buyTicket(amount));
     }
 }
