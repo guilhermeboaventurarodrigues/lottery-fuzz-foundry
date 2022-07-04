@@ -10,7 +10,7 @@
 ## :heavy_check_mark: Testes positivos: 14
 <p>:slot_machine: Lottery</p>
 
-- testFuzzBuyTicket(uint256 amount)
+- testBuyTicket()
 - testGiftWinner()
 - testGetValueGift()
 
@@ -20,6 +20,9 @@
 - testTokenSymbols()
 - testTokenDecimals()
 - testTotalSupply()
+
+<p>:pencil2: Fuzz Tests</p>
+
 - testFuzzBalanceOf(addres wallet)
 - testFuzzTransfer(address recipient, uint256 amount)
 - testFuzzTransferFrom(address from, address to, uint256 amount)
@@ -31,16 +34,18 @@
 ## :bangbang: Testes negativos: 10
 <p>:slot_machine: Lottery</p>
 
-- testFailFuzzBuyTicketStatusCLOSED(uint256 amount)
-- testFailFuzzBuyTicketOtherValue(uint256 amount)
-- testFailFuzzGiftWinnerStatusCLOSED(uint256 amount)
-- testFailFuzzGiftWinnerNotOwner(uint256 amount)
-- testFailFuzzGetValueGiftStatusCLOSED(uint256 amount)
+- testFailBuyTicketStatusCLOSED()
+- testFailGiftWinnerStatusCLOSED()
+- testFailGiftWinnerNotOwner()
+- testFailGetValueGiftStatusCLOSED()
 
 <p>:dollar: Token</p>
+
+<p>:pencil2: Fuzz Tests</p>
 
 - testFailFuzzTransferNotBalance(address recipient, uint256 amount)
 - testFailFuzzApproveNotBalance(address spender, uint256 amount)
 - testFailFuzzTransferFromNotBalanace(address from, address to, uint256 amount)
 - testFailFuzzTransferFromNotApprove(address from, address to, uint256 amount)
 - testFailFuzzDecreaseAllowanceZeroBalance(address spender, uint256 amount)
+- testFailBuyTicketOtherValue(uint256 amount)
